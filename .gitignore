@@ -1,0 +1,17 @@
+# Directories content
+/data/*
+!/data/.gitkeep
+/project/*
+!/project/.gitkeep
+
+# Vagrant files
+.vagrant/
+
+# Mac OS files
+.DS_Store
+
+# PHPStorm files
+.idea
+
+# Log files
+/*.log

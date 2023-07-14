@@ -1,0 +1,85 @@
+---
+# https://www.vultr.com/docs/how-to-install-mysql-5-7-on-ubuntu-20-04/
+#Because Ubuntu 20.04 only has MySQL 8.0 in the APT repository, you need to add MySQL 5.7 repository first before installing it. Download MySQL repository using the following commands :
+#  $ wget https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb
+#Once it's downloaded, install the repository :
+#  $ sudo dpkg -i mysql-apt-config_0.8.12-1_all.deb
+#  In the prompt, choose the Ubuntu Bionic. And then select the MySQL Server & Cluster option. After that, choose mysql-5.7 and then select ok.
+#After it's finished, update the APT repository :
+#  $ sudo apt update
+#If you encounter the "signature couldn't be verified" error like this :
+#The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 467B942D3A79BD29
+#You need to import the missing gpg key with the following command :
+#  $ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
+#After that, rerun the apt update :
+#  $ sudo apt update
+
+- name: Install MySQL DB server
+  become: yes
+  apt:
+    name:
+      - mysql-client=5.7*
+      - mysql-community-server=5.7*
+      - mysql-server=5.7*
+    state: fixed
+  tags:
+    - mysql
+
+- name: Install required MySQL Python libraries
+  become: yes
+  apt:
+    name:
+      - python3-mysqldb
+    state: latest
+  tags:
+    - mysql
+
+- name: Determine required MySQL Python libraries.
+  set_fact:
+    deb_mysql_python_package: "{% if 'python3' in ansible_python_interpreter|default('') %}python3-mysqldb{% else %}python-mysqldb{% endif %}"
+  tags:
+    - mysql
+
+#- name: Edit database root user plugin from auth_socket to mysql_native_password
+#  become: yes
+#  mysql_user:
+#    name: root
+#    password: "{{ mysql_root_password }}"
+#    priv: "*.*:ALL,GRANT"
+#    host: "%"
+#  failed_when: no
+#  tags:
+#    - mysql
+
+- name: Set innodb_file_per_table variable
+  become: yes
+  mysql_variables:
+    #    login_user: root
+    #    login_password: "{{ mysql_root_password }}"
+    variable: innodb_file_per_table
+    value: "ON"
+  tags:
+    - mariadb
+
+- name: Create a new database
+  become: yes
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ mysql_database_name }}"
+    encoding: "{{ mysql_encoding }}"
+    collation: "{{ mysql_collation }}"
+  tags:
+    - mysql
+
+- name: Create new database user with all database privileges and 'WITH GRANT OPTION'
+  become: yes
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
+    priv: "*.*:ALL,GRANT"
+    host: "%"
+  tags:
+    - mysql

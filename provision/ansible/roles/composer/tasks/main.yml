@@ -1,0 +1,30 @@
+---
+- name: Download Composer
+  script: scripts/install_composer.sh
+  register: download_composer
+  changed_when: download_composer.failed == true
+  tags:
+    - composer
+
+- name: Force an update to the stable channel, but only use 1.x versions
+  command: "./composer.phar selfupdate --1"
+  register: composer_selfupdate
+  changed_when: no
+  tags:
+    - composer
+
+- name: Move Composer globally
+  become: yes
+  command: "mv composer.phar {{ composer_global_path }}"
+  register: composer_globally
+  changed_when: composer_globally.failed == true
+  tags:
+    - composer
+
+- name: Set permissions on Composer
+  become: yes
+  file:
+    path: "{{ composer_global_path }}"
+    mode: "a+x"
+  tags:
+    - composer

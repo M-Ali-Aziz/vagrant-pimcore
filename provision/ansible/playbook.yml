@@ -1,0 +1,22 @@
+---
+- name: EHL Pimcore X Playbook
+
+  hosts: all
+
+  pre_tasks:
+    - name: Update APT package manager repositories cache
+      become: yes
+      apt:
+        update_cache: yes
+
+    - name: Upgrade installed packages
+      become: yes
+      apt:
+        upgrade: safe
+
+  roles:
+      - common
+      - apache2
+      - mysql
+      - php7.4
+      - composer

@@ -1,0 +1,66 @@
+---
+- name: Add PHP 7 repository from PPA
+  become: yes
+  apt_repository:
+    validate_certs: no
+    repo: ppa:ondrej/php
+  tags:
+    - php7.4
+
+- name: Install PHP 7.4 packages
+  become: yes
+  apt:
+    name:
+      - php7.4
+      - php7.4-cli
+      - php7.4-curl
+      - php7.4-gd
+      - php7.4-mbstring
+      - php7.4-mysql
+      - php7.4-odbc
+      - php7.4-xml
+      - php7.4-zip
+      - php7.4-bz2
+      - php7.4-intl
+      - php7.4-apcu
+      - php7.4-redis
+      - php7.4-msgpack
+      - php7.4-imagick
+      - php-pear
+      - php7.4-sybase
+    state: fixed
+  notify: Restart Apache2
+  tags:
+    - php7.4
+
+- name: Set PHP configuration in php.ini
+  become: yes
+  ini_file:
+    path: /etc/php/7.4/apache2/php.ini
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { section: PHP, option: memory_limit, value: 512M }
+    - { section: PHP, option: max_execution_time, value: 100 }
+    - { section: PHP, option: max_input_time, value: 100 }
+    - { section: PHP, option: upload_max_filesize, value: 100M }
+    - { section: PHP, option: post_max_size, value: 100M }
+    - { section: Date, option: date.timezone, value: Europe/Stockholm }
+  notify: Restart Apache2
+  tags:
+    - php7.4
+
+- name: Set Lucatopen.lu.se server configuration to freeTDS config file
+  become: yes
+  blockinfile:
+    path: /etc/freetds/freetds.conf
+    block: |
+      [lucatopen.lu.se]
+              host = lucatopen.lu.se
+              port = 1433
+              use ntlmv2 = yes
+              tds version = 8.0
+              client charset = UTF-8
+  tags:
+    - ehl

@@ -1,0 +1,27 @@
+---
+- name: Install server default packges
+  become: yes
+  apt:
+    name:
+      - zip
+      - unzip
+    state: latest
+  tags:
+    - common
+
+- name: Set timezone to Europe/Stockholm
+  become: yes
+  timezone:
+    name: Europe/Stockholm
+  tags:
+    - common
+
+- name: Install additional server software for Pimcore
+  become: yes
+  apt:
+    name:
+      - ffmpeg
+      - graphviz
+  tags:
+    - common
+    - pimcore
