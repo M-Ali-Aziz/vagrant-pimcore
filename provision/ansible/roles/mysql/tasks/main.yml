@@ -1,4 +1,5 @@
 ---
+# Comment out all the roles here in  this file
 # https://www.vultr.com/docs/how-to-install-mysql-5-7-on-ubuntu-20-04/
 #Because Ubuntu 20.04 only has MySQL 8.0 in the APT repository, you need to add MySQL 5.7 repository first before installing it. Download MySQL repository using the following commands :
 #  $ wget https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb
@@ -13,6 +14,8 @@
 #  $ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
 #After that, rerun the apt update :
 #  $ sudo apt update
+# Comment back in the rules
+# Run vagrant provision
 
 - name: Install MySQL DB server
   become: yes
