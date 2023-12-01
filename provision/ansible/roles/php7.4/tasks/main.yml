@@ -28,8 +28,21 @@
       - php7.4-imagick
       - php-pear
       - php7.4-sybase
+      - php7.4-xdebug
     state: fixed
   notify: Restart Apache2
+  tags:
+    - php7.4
+
+- name: Insert xdebug configuration
+  become: yes
+  become_method: sudo
+  blockinfile:
+    dest: /etc/php/7.4/mods-available/xdebug.ini
+    block: |
+      xdebug.mode=debug
+      xdebug.client_host=10.0.2.2
+      xdebug.client_port=9003
   tags:
     - php7.4
 
