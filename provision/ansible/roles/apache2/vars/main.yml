@@ -7,5 +7,5 @@ pimcore_web_dir: "{{ pimcore_root_dir }}/web"
 vhost_template_name: pimcore
 
 # Needs to mach the cert files on the GUEST
-ssl_certificate_cert_path: /vagrant/provision/files/cert/dev.publicera.ehl.lu.se_cert.pem
-ssl_certificate_key_path: /vagrant/provision/files/cert/dev.publicera.ehl.lu.se_key.pem
+# ssl_certificate_cert_path: /vagrant/provision/files/cert/dev.publicera.ehl.lu.se_cert.pem
+# ssl_certificate_key_path: /vagrant/provision/files/cert/dev.publicera.ehl.lu.se_key.pem
