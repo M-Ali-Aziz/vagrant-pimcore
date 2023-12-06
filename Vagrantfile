@@ -2,8 +2,8 @@
 # vi: set ft=ruby :
 
 #============================= VARIABLES =================================
-# BOX use Ubuntu 20.04 LTS 64 bit
-BOX = "ubuntu/focal64"
+# BOX use Ubuntu 23.04 LTS 64 bit
+BOX = "ubuntu/lunar64"
 
 # Private network ip number
 IP = "192.168.56.21"
@@ -13,7 +13,7 @@ HOST_FOLDER_PROJECT = "project"
 GUEST_FOLDER_PROJECT = "/var/www/project"
 
 # Customize VB
-VB_NAME = "ehl_pimcore_6_to_10"
+VB_NAME = "ehl_pimcore_6_to_11"
 MEMORY = 5000
 CPU = 5
 
@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder HOST_FOLDER_PROJECT, GUEST_FOLDER_PROJECT, owner: "vagrant", group: "www-data", mount_options:['dmode=775', 'fmode=775']
 #   config.vm.synced_folder HOST_FOLDER_PROJECT, GUEST_FOLDER_PROJECT, owner: "www-data", group: "www-data", mount_options:['dmode=777', 'fmode=777']
 #   config.vm.synced_folder HOST_FOLDER_PROJECT, GUEST_FOLDER_PROJECT, type: "nfs", mount_options: ['actimeo=2']
-#   config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder ".", "/vagrant", disabled: false
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.

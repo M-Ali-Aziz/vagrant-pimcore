@@ -1,7 +1,7 @@
 ---
 pimcore_env: dev
 pimcore_root_dir: /var/www/project/ehl/
-pimcore_web_dir: "{{ pimcore_root_dir }}/web"
+pimcore_public_dir: "{{ pimcore_root_dir }}/public"
 
 # Needs to mach the template name under templates/ folder
 vhost_template_name: pimcore

@@ -6,12 +6,12 @@
   tags:
     - composer
 
-- name: Force an update to the stable channel, but only use 1.x versions
-  command: "./composer.phar selfupdate --1"
-  register: composer_selfupdate
-  changed_when: no
-  tags:
-    - composer
+#- name: Force an update to the stable channel, but only use 1.x versions
+#  command: "./composer.phar selfupdate --1"
+#  register: composer_selfupdate
+#  changed_when: no
+#  tags:
+#    - composer
 
 - name: Move Composer globally
   become: yes
